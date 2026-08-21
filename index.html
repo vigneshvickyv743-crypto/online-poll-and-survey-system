@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TVK — Online Poll &amp; Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brandrow">
+    <div class="brand">
+      <div class="stamp">✓</div>
+      <div>
+        <h1>TVK</h1>
+        <p>Online Poll &amp; Survey</p>
+      </div>
+    </div>
+    <nav class="tabs">
+      <button data-tab="dashboard" class="active">Home</button>
+      <button data-tab="create">Create</button>
+      <button data-tab="vote">Vote</button>
+      <button data-tab="results">Results</button>
+    </nav>
+  </div>
+
+</header>
+
+<main>
+
+  <!-- ============ DASHBOARD ============ -->
+  <section id="dashboard" class="active">
+    <div class="pagehead">
+      <div class="eyebrow">Overview</div>
+      <h2>Collect opinions. Analyze data. Make better decisions.</h2>
+      <p>A running tally of everything happening across your polls — create a new one, cast a vote, or watch results update in real time.</p>
+    </div>
+
+    <div class="statstrip">
+      <div class="stat"><div class="num" id="statPolls">0</div><div class="lbl">Total Polls</div></div>
+      <div class="stat"><div class="num" id="statVotes">0</div><div class="lbl">Total Responses</div></div>
+      <div class="stat"><div class="num" id="statUsers">96</div><div class="lbl">Active Users</div></div>
+      <div class="stat"><div class="num" id="statRate">—</div><div class="lbl">Participation Rate</div></div>
+    </div>
+
+    <div class="grid two" style="margin-bottom:20px;">
+      <div class="card" style="cursor:pointer;" id="quickCreate">
+        <div class="eyebrow" style="margin-bottom:10px;">Quick action</div>
+        <h3>Start a new poll</h3>
+        <div class="sub" style="margin-bottom:0;">Write a question, add options, publish in seconds.</div>
+      </div>
+      <div class="card" style="cursor:pointer;" id="quickVote">
+        <div class="eyebrow" style="margin-bottom:10px;">Quick action</div>
+        <h3>Cast a vote</h3>
+        <div class="sub" style="margin-bottom:0;">Jump into an open poll and make your response count.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Recent Polls</h3>
+      <div class="sub">Latest questions added to TVK</div>
+      <div id="recentList"></div>
+    </div>
+  </section>
+
+  <!-- ============ CREATE ============ -->
+  <section id="create">
+    <div class="pagehead">
+      <div class="eyebrow">Step one</div>
+      <h2>Create a new poll</h2>
+      <p>Write a clear question, add as many options as you need, then publish it for others to vote on.</p>
+    </div>
+
+    <div class="grid two">
+      <div class="card">
+        <h3>Poll details</h3>
+        <div class="sub">Fields marked required must be filled before publishing</div>
+
+        <label>Question</label>
+        <input type="text" id="qInput" placeholder="e.g. What is your favorite programming language?">
+
+        <label>Answer type</label>
+        <select id="typeInput">
+          <option value="single">Multiple Choice (single answer)</option>
+          <option value="multi">Checkbox (multiple answers)</option>
+          <option value="yn">Yes / No</option>
+        </select>
+
+        <label>Options</label>
+        <div id="optList"></div>
+        <button class="addopt" id="addOptBtn" type="button">+ Add option</button>
+
+        <button class="btn btn-gold btn-block" id="publishBtn">Publish Poll</button>
+      </div>
+
+      <div class="card">
+        <h3>Live preview</h3>
+        <div class="sub">This is how voters will see it</div>
+        <div id="previewBox"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VOTE ============ -->
+  <section id="vote">
+    <div class="pagehead">
+      <div class="eyebrow">Step two</div>
+      <h2>Cast your vote</h2>
+      <p>Pick a poll below, choose an answer, and submit — your response is added to the results instantly.</p>
+    </div>
+
+    <select class="pollpicker" id="votePicker"></select>
+
+    <div class="grid two">
+      <div class="card" id="voteCard" style="position:relative;">
+        <div class="stampcounted" id="countedStamp">Counted</div>
+        <h3 id="voteQ" class="qtext">—</h3>
+        <div id="voteChoices"></div>
+        <button class="btn btn-primary btn-block" id="voteBtn">Vote</button>
+      </div>
+      <div class="card">
+        <h3>Why your vote counts</h3>
+        <div class="tally" style="margin:6px 0 14px;">
+          <i></i><i></i><i></i><i></i><i class="diag"></i>
+        </div>
+        <p style="font-size:13.5px; color:#5a5646; line-height:1.6;">
+          Every response is added to the poll's live tally the moment you submit — no page reload needed.
+          Head to the <b>Results</b> tab afterward to see the updated breakdown and percentages.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="results">
+    <div class="pagehead">
+      <div class="eyebrow">Step three</div>
+      <h2>Poll results</h2>
+      <p>Bar breakdown and share-of-vote chart for any published poll, updated live as votes come in.</p>
+    </div>
+
+    <select class="pollpicker" id="resultPicker"></select>
+
+    <div class="grid two">
+      <div class="card">
+        <h3 id="resultQ">—</h3>
+        <div class="sub" id="resultTotal">0 total votes</div>
+        <div id="resultBars"></div>
+      </div>
+      <div class="card">
+        <h3>Share of votes</h3>
+        <div class="sub">Percentage breakdown</div>
+        <div class="piewrap">
+          <canvas id="pieCanvas" width="190" height="190"></canvas>
+          <div class="legend" id="pieLegend"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid three" style="margin-top:20px;">
+      <div class="card"><h3 style="font-size:14px; color:#8a8570; text-transform:uppercase; letter-spacing:.06em;">Total Polls</h3><div class="num mono" style="font-size:28px; color:var(--ink-2);" id="topPolls">0</div></div>
+      <div class="card"><h3 style="font-size:14px; color:#8a8570; text-transform:uppercase; letter-spacing:.06em;">Total Responses</h3><div class="num mono" style="font-size:28px; color:var(--ink-2);" id="topResp">0</div></div>
+      <div class="card"><h3 style="font-size:14px; color:#8a8570; text-transform:uppercase; letter-spacing:.06em;">Participation Rate</h3><div class="num mono" style="font-size:28px; color:var(--ink-2);" id="topRate">—</div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="stamp2">TVK</div>
+  Online Poll &amp; Survey — collect opinions, analyze data, make better decisions.
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
